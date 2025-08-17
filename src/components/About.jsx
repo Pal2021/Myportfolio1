@@ -21,12 +21,17 @@ import {
   Heart,
   Coffee,
   User,
+  ExternalLink,
 } from "lucide-react";
 import {
   personalInfo,
   skills,
   techLogos,
   socialLinks,
+  achievementLinks,
+  profileImageUrls,
+  animationDelays,
+  counterConfig,
 } from "../data/portfolioData";
 
 const About = () => {
@@ -39,19 +44,103 @@ const About = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [visibleCards, setVisibleCards] = useState(new Set());
   const [imageError, setImageError] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Multiple image URL attempts for better reliability
-  const profileImageUrls = [
-    // Attempt 1: Google Drive direct link
-    "https://drive.google.com/uc?export=view&id=16PBdJMWihnq3hkNUGTur1x77PzXEl_GQ",
-    // Attempt 2: Alternative Google Drive format
-    "https://drive.google.com/thumbnail?id=16PBdJMWihnq3hkNUGTur1x77PzXEl_GQ&sz=w400",
-    // Attempt 3: Another format
-    "https://lh3.googleusercontent.com/d/16PBdJMWihnq3hkNUGTur1x77PzXEl_GQ",
+  const profileImageUrl = profileImageUrls[currentImageIndex];
+
+  // Achievement data from portfolioData
+  const achievementsData = [
+    {
+      icon: Code2,
+      title: "LeetCode Master",
+      description: "Completed 800+ coding problems on LeetCode",
+      color: "from-orange-500 to-red-500",
+      stat: "800+",
+    },
+    {
+      icon: Zap,
+      title: "GeeksForGeeks Pro",
+      description: "Solved 250+ problems on GeeksForGeeks",
+      color: "from-green-500 to-blue-500",
+      stat: "250+",
+    },
+    {
+      icon: Award,
+      title: "TCS CodeVita",
+      description:
+        "Secured 142nd rank in TCS CodeVita annual coding competition round 2",
+      color: "from-blue-500 to-purple-500",
+      stat: "142nd",
+    },
+    {
+      icon: Star,
+      title: "Codeforces Specialist",
+      description: "Achieved Specialist rank on Codeforces",
+      color: "from-purple-500 to-pink-500",
+      stat: "Specialist",
+    },
+    {
+      icon: Trophy,
+      title: "Contest Performance",
+      description: "Top 15% performer in LeetCode contests",
+      color: "from-yellow-500 to-orange-500",
+      stat: "Top 15%",
+    },
   ];
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const profileImageUrl = profileImageUrls[currentImageIndex];
+  // Stats data from portfolioData
+  const statsData = [
+    {
+      key: "experience",
+      label: "Years Experience",
+      color: "from-blue-500 to-blue-600",
+      icon: Target,
+    },
+    {
+      key: "projects",
+      label: "Projects Completed",
+      color: "from-purple-500 to-purple-600",
+      icon: Rocket,
+    },
+    {
+      key: "clients",
+      label: "Happy Clients",
+      color: "from-green-500 to-green-600",
+      icon: Heart,
+    },
+  ];
+
+  // Journey data
+  const journeyData = [
+    {
+      icon: Target,
+      title: "🎯 Current Focus",
+      description:
+        "Building scalable microservices with Spring Boot and modern Java technologies",
+      color: "from-blue-500 to-blue-600",
+    },
+    {
+      icon: Rocket,
+      title: "🚀 Latest Achievement",
+      description:
+        "Successfully delivered ETL pipelines and microservices architecture at TCS",
+      color: "from-purple-500 to-purple-600",
+    },
+    {
+      icon: BookOpen,
+      title: "📚 Currently Learning",
+      description:
+        "AI and machine learning, Low Level System Design, high level design, Advanced Docker & Kubernetes Architecture",
+      color: "from-green-500 to-green-600",
+    },
+    {
+      icon: Coffee,
+      title: "☕ What Drives Me",
+      description:
+        "Passionate about solving complex problems and creating elegant solutions that make a real impact",
+      color: "from-orange-500 to-red-500",
+    },
+  ];
 
   // Animated counter effect
   useEffect(() => {
@@ -77,9 +166,21 @@ const About = () => {
     };
 
     const timers = [
-      animateCounter(personalInfo.experience, "experience", 1500),
-      animateCounter(personalInfo.projects, "projects", 2000),
-      animateCounter(personalInfo.clients, "clients", 1800),
+      animateCounter(
+        personalInfo.experience,
+        "experience",
+        counterConfig.experience.duration
+      ),
+      animateCounter(
+        personalInfo.projects,
+        "projects",
+        counterConfig.projects.duration
+      ),
+      animateCounter(
+        personalInfo.clients,
+        "clients",
+        counterConfig.clients.duration
+      ),
     ];
 
     return () => timers.forEach(clearInterval);
@@ -145,6 +246,13 @@ const About = () => {
     }
   };
 
+  const handleAchievementClick = (title) => {
+    const url = achievementLinks[title];
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <div className="space-y-16 relative">
       {/* Floating background elements */}
@@ -165,7 +273,6 @@ const About = () => {
                 onError={handleImageError}
                 onLoad={() => {
                   setImageError(false);
-                  // Reset index on successful load
                   if (currentImageIndex !== 0) {
                     console.log(
                       `Image loaded successfully from source ${
@@ -255,26 +362,7 @@ const About = () => {
         className="grid grid-cols-1 md:grid-cols-3 gap-8"
         data-card-id="stats"
       >
-        {[
-          {
-            key: "experience",
-            label: "Years Experience",
-            color: "from-blue-500 to-blue-600",
-            icon: Target,
-          },
-          {
-            key: "projects",
-            label: "Projects Completed",
-            color: "from-purple-500 to-purple-600",
-            icon: Rocket,
-          },
-          {
-            key: "clients",
-            label: "Happy Clients",
-            color: "from-green-500 to-green-600",
-            icon: Heart,
-          },
-        ].map((stat, index) => (
+        {statsData.map((stat, index) => (
           <div
             key={stat.key}
             className={`group relative overflow-hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 ${
@@ -282,7 +370,9 @@ const About = () => {
                 ? "animate-in slide-in-from-bottom"
                 : "opacity-0"
             }`}
-            style={{ animationDelay: `${index * 200}ms` }}
+            style={{
+              animationDelay: `${index * animationDelays.statsCards}ms`,
+            }}
           >
             <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
             <div className="text-center relative z-10">
@@ -304,33 +394,35 @@ const About = () => {
         ))}
       </div>
 
-      {/* Enhanced Skills Section */}
+      {/* Enhanced Skills Section - Mobile Responsive */}
       <div
-        className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-10 shadow-xl border border-gray-200/50 dark:border-gray-700/50"
+        className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-200/50 dark:border-gray-700/50"
         data-card-id="skills"
       >
-        <div className="text-center mb-10">
-          <h3 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-200 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-8 sm:mb-10">
+          <h3 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 to-blue-800 dark:from-white dark:to-blue-200 bg-clip-text text-transparent mb-4">
             Technical Skills
           </h3>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           {skills.map((skill, index) => (
             <div
               key={index}
-              className={`group relative overflow-hidden flex items-center px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 rounded-2xl hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-200/50 dark:border-gray-600/50 ${
+              className={`group relative overflow-hidden flex items-center px-3 sm:px-4 lg:px-6 py-3 sm:py-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 rounded-2xl hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-200/50 dark:border-gray-600/50 ${
                 visibleCards.has("skills")
                   ? "animate-in slide-in-from-left"
                   : "opacity-0"
               }`}
-              style={{ animationDelay: `${index * 100}ms` }}
+              style={{
+                animationDelay: `${index * animationDelays.skillCards}ms`,
+              }}
             >
-              <span className="text-3xl mr-4 group-hover:scale-125 transition-transform duration-300 filter drop-shadow-sm">
+              <span className="text-lg sm:text-xl lg:text-2xl xl:text-3xl mr-2 sm:mr-3 lg:mr-4 group-hover:scale-125 transition-transform duration-300 filter drop-shadow-sm flex-shrink-0">
                 {techLogos[skill] || "🔧"}
               </span>
-              <span className="text-gray-800 dark:text-gray-200 font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+              <span className="text-sm sm:text-base lg:text-lg text-gray-800 dark:text-gray-200 font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 truncate">
                 {skill}
               </span>
             </div>
@@ -338,7 +430,7 @@ const About = () => {
         </div>
       </div>
 
-      {/* New Journey & Passion Section */}
+      {/* Journey & Passion Section */}
       <div
         className="bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-indigo-900/20 rounded-3xl p-10 shadow-xl border border-gradient-to-r"
         data-card-id="journey"
@@ -351,36 +443,7 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[
-            {
-              icon: Target,
-              title: "🎯 Current Focus",
-              description:
-                "Building scalable microservices with Spring Boot and modern Java technologies",
-              color: "from-blue-500 to-blue-600",
-            },
-            {
-              icon: Rocket,
-              title: "🚀 Latest Achievement",
-              description:
-                "Successfully delivered ETL pipelines and microservices architecture at TCS",
-              color: "from-purple-500 to-purple-600",
-            },
-            {
-              icon: BookOpen,
-              title: "📚 Currently Learning",
-              description:
-                "AI and machine learning, Low Level System Design, high level design, Advanced Docker & Kubernetes Architecture",
-              color: "from-green-500 to-green-600",
-            },
-            {
-              icon: Coffee,
-              title: "☕ What Drives Me",
-              description:
-                "Passionate about solving complex problems and creating elegant solutions that make a real impact",
-              color: "from-orange-500 to-red-500",
-            },
-          ].map((item, index) => (
+          {journeyData.map((item, index) => (
             <div
               key={index}
               className={`group relative overflow-hidden flex items-start p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-200/50 dark:border-gray-700/50 ${
@@ -388,7 +451,9 @@ const About = () => {
                   ? "animate-in slide-in-from-right"
                   : "opacity-0"
               }`}
-              style={{ animationDelay: `${index * 200}ms` }}
+              style={{
+                animationDelay: `${index * animationDelays.journeyCards}ms`,
+              }}
             >
               <div
                 className={`w-3 h-3 bg-gradient-to-r ${item.color} rounded-full mt-2 mr-4 flex-shrink-0 group-hover:scale-150 transition-transform duration-300 shadow-lg`}
@@ -406,7 +471,7 @@ const About = () => {
         </div>
       </div>
 
-      {/* New Achievements Section */}
+      {/* Enhanced Achievements Section with Clickable Links */}
       <div
         className="bg-gradient-to-r from-yellow-50 via-orange-50 to-red-50 dark:from-yellow-900/20 dark:via-orange-900/20 dark:to-red-900/20 rounded-3xl p-10 shadow-xl border border-gradient-to-r"
         data-card-id="achievements"
@@ -422,59 +487,31 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              icon: Code2,
-              title: "LeetCode Master",
-              description: "Completed 800+ coding problems on LeetCode",
-              color: "from-orange-500 to-red-500",
-              stat: "800+",
-            },
-            {
-              icon: Zap,
-              title: "GeeksForGeeks Pro",
-              description: "Solved 250+ problems on GeeksForGeeks",
-              color: "from-green-500 to-blue-500",
-              stat: "250+",
-            },
-            {
-              icon: Award,
-              title: "TCS CodeVita",
-              description:
-                "Secured 142nd rank in TCS CodeVita annual coding competition round 2",
-              color: "from-blue-500 to-purple-500",
-              stat: "142nd",
-            },
-            {
-              icon: Star,
-              title: "Codeforces Specialist",
-              description: "Achieved Specialist rank on Codeforces",
-              color: "from-purple-500 to-pink-500",
-              stat: "Specialist",
-            },
-            {
-              icon: Trophy,
-              title: "Contest Performance",
-              description: "Top 15% performer in LeetCode contests",
-              color: "from-yellow-500 to-orange-500",
-              stat: "Top 15%",
-            },
-          ].map((achievement, index) => (
+          {achievementsData.map((achievement, index) => (
             <div
               key={index}
-              className={`group relative overflow-hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 ${
+              onClick={() => handleAchievementClick(achievement.title)}
+              className={`group relative overflow-hidden bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-200/50 dark:border-gray-700/50 cursor-pointer ${
                 visibleCards.has("achievements")
                   ? "animate-in zoom-in"
                   : "opacity-0 scale-95"
               }`}
-              style={{ animationDelay: `${index * 150}ms` }}
+              style={{
+                animationDelay: `${index * animationDelays.achievementCards}ms`,
+              }}
             >
               <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
               <div className="relative z-10">
-                <div
-                  className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r ${achievement.color} rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                >
-                  <achievement.icon size={24} className="text-white" />
+                <div className="flex justify-between items-start mb-4">
+                  <div
+                    className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r ${achievement.color} rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <achievement.icon size={24} className="text-white" />
+                  </div>
+                  <ExternalLink
+                    size={18}
+                    className={`text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-r ${achievement.color} bg-clip-text text-transparent`}
+                  />
                 </div>
                 <div
                   className={`text-2xl font-bold bg-gradient-to-r ${achievement.color} bg-clip-text text-transparent mb-2`}
@@ -487,6 +524,10 @@ const About = () => {
                 <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                   {achievement.description}
                 </p>
+                <div className="mt-3 text-xs text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
+                  <span>Click to view profile</span>
+                  <ArrowRight size={12} className="ml-1" />
+                </div>
               </div>
             </div>
           ))}

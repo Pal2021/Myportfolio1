@@ -40,13 +40,13 @@ export const socialLinks = [
   {
     name: "LinkedIn",
     icon: Linkedin,
-    url: "https://linkedin.com/in/prashantpal13",
+    url: "https://www.linkedin.com/in/prashantpal13/",
     color: "hover:text-blue-600",
   },
   {
     name: "Twitter",
     icon: Twitter,
-    url: "https://twitter.com/prashantpal",
+    url: "https://x.com/Prashan56878005",
     color: "hover:text-blue-400",
   },
   {
@@ -56,6 +56,41 @@ export const socialLinks = [
     color: "hover:text-red-500",
   },
 ];
+
+// Achievement links for clickable achievement cards
+export const achievementLinks = {
+  "LeetCode Master": "https://leetcode.com/u/pras2022/",
+  "GeeksForGeeks Pro": "https://www.geeksforgeeks.org/user/prashantpal200013/",
+  "TCS CodeVita":
+    "https://drive.google.com/file/d/1am6V2Oi19w5vuoADFA9rRnbsVLbeMCkH/view?usp=sharing",
+  "Codeforces Specialist": "https://codeforces.com/profile/prashantpal2986",
+  "Contest Performance": "https://leetcode.com/u/pras2022/",
+};
+
+// Profile image URLs for fallback handling
+export const profileImageUrls = [
+  // Attempt 1: Google Drive direct link
+  "https://drive.google.com/uc?export=view&id=16PBdJMWihnq3hkNUGTur1x77PzXEl_GQ",
+  // Attempt 2: Alternative Google Drive format
+  "https://drive.google.com/thumbnail?id=16PBdJMWihnq3hkNUGTur1x77PzXEl_GQ&sz=w400",
+  // Attempt 3: Another format
+  "https://lh3.googleusercontent.com/d/16PBdJMWihnq3hkNUGTur1x77PzXEl_GQ",
+];
+
+// Animation delays for staggered effects
+export const animationDelays = {
+  statsCards: 200,
+  skillCards: 100,
+  journeyCards: 200,
+  achievementCards: 150,
+};
+
+// Counter animation configuration
+export const counterConfig = {
+  experience: { duration: 1500 },
+  projects: { duration: 2000 },
+  clients: { duration: 1800 },
+};
 
 export const githubProjects = [
   {
@@ -248,7 +283,7 @@ export const experience = [
     company: "Worked as FreeLancer",
     position: "MERN stack Developer",
     duration: "Jan 2024 - July 2024",
-    location: "Ballia, UP",
+    location: "Remote",
     description: [
       "Built and deployed a real estate website for a client using the MERN stack, enabling property listing, search, and user authentication with optimized API calls for faster performance.",
 
@@ -368,27 +403,20 @@ export const education = [
       "Operating Systems",
       "Computer Networks",
     ],
-    achievements: [
-      "Completed 800+ coding problems on LeetCode",
-      "Solved 250+ problems on GeeksForGeeks",
-      "Secured 142nd rank in TCS CodeVita annual coding competition round 2",
-      "Achieved Specialist rank on Codeforces",
-      "Top 15% performer in LeetCode contests",
-    ],
   },
   {
     id: 2,
     degree: "Higher Secondary Certificate (12th)",
     college: "Banshi Bazar Inter College",
     university: "UP Board",
-    duration: "2018 - 2020",
-    grade: "85%",
+    // duration: "2018 - 2020",
+    // grade: "85%",
     location: "Ballia, Uttar Pradesh",
-    subjects: ["Physics", "Chemistry", "Mathematics", "Computer Science"],
-    achievements: [
-      "Strong foundation in Mathematics and Computer Science",
-      "Active participation in programming competitions",
-    ],
+    subjects: ["Physics", "Chemistry", "Mathematics", "English"],
+    // achievements: [
+    //   "Strong foundation in Mathematics and Computer Science",
+    //   "Active participation in programming competitions",
+    // ],
   },
 ];
 
@@ -526,8 +554,8 @@ export const menuItems = [
   { id: "experience", label: "Experience", icon: Briefcase },
   { id: "projects", label: "Projects", icon: Code },
   { id: "certificates", label: "Certificates", icon: Award },
-  { id: "articles", label: "Articles", icon: BookOpen },
+  //  { id: "articles", label: "Articles", icon: BookOpen },
   { id: "education", label: "Education", icon: GraduationCap },
-  { id: "services", label: "Services", icon: Wrench },
+  //  { id: "services", label: "Services", icon: Wrench },
   { id: "contact", label: "Contact", icon: MessageSquare },
 ];
