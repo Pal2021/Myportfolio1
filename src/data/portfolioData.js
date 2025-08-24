@@ -27,7 +27,7 @@ export const personalInfo = {
   projects: "30+",
   clients: "3+",
   resumeUrl:
-    "https://drive.google.com/file/d/1mLcYGVHDYJ7Q0HvSsEsJvzacc0LCUyNQ/view?usp=sharing",
+    "https://drive.google.com/file/d/1CewjAHtoJdZ3CIoPXe5AdEBvBnCLTjxm/view?usp=sharing",
 };
 
 export const socialLinks = [
